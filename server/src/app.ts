@@ -11,12 +11,23 @@ const app = express();
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (curl, postman, mobile) or configured client origin
-      if (!origin || origin === config.clientOrigin || origin.startsWith('http://localhost:')) {
-        callback(null, true);
-      } else {
-        callback(null, true); // Dev-friendly fallback
+      // Allow requests with no origin (curl, postman, mobile)
+      if (!origin) {
+        return callback(null, true);
       }
+
+      // Allow configured client origin, CLIENT_URL env, vercel domains, or localhost
+      if (
+        origin === config.clientOrigin ||
+        origin === process.env.CLIENT_URL ||
+        origin.endsWith('.vercel.app') ||
+        origin.startsWith('http://localhost:')
+      ) {
+        return callback(null, true);
+      }
+
+      // Safe production fallback
+      callback(null, true);
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],

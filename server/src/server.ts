@@ -11,8 +11,8 @@ export async function startServer() {
   // Connect to MongoDB before accepting incoming HTTP requests
   const dbConnected = await connectDatabase();
 
-  const server = app.listen(config.port, () => {
-    console.log(`🚀 FoodBridge Server listening on http://localhost:${config.port}`);
+  const server = app.listen(config.port, '0.0.0.0', () => {
+    console.log(`🚀 FoodBridge Server listening on port ${config.port} (0.0.0.0)`);
     console.log(`🌐 Allowed Client Origin: ${config.clientOrigin}`);
     console.log(`🩺 Health endpoint: http://localhost:${config.port}/api/health`);
     if (!dbConnected) {
