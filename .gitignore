@@ -9,6 +9,10 @@ node_modules/
 *.env
 DEMO_CREDENTIALS.md
 
+# Private evaluation documents containing passwords
+documentation/*Complete*
+documentation/__pycache__/
+
 # Build outputs
 dist/
 build/
