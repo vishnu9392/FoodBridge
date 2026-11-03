@@ -1,12 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { config } from '../config/env';
+import { AuthUserPayload } from '../types';
 
-export interface AuthUserPayload {
-  id: string;
-  email: string;
-  role: 'donor' | 'recipient' | 'admin';
-  name: string;
-}
+export { AuthUserPayload };
 
 export function generateToken(payload: AuthUserPayload): string {
   // Signs JWT token with configured secret, expires in 7 days

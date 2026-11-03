@@ -10,6 +10,11 @@
   --bg-input: #161619;
   --bg-overlay: rgba(14, 14, 16, 0.9);
 
+  /* Global Design System Variables */
+  --color-background: #121212;
+  --color-primary: #FF8C42;
+  --color-cream: #F5E6D3;
+
   /* Unified Aliases */
   --card-bg: var(--bg-card);
   --text-main: var(--text-primary);

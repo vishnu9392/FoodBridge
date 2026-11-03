@@ -1,12 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import { ScrollToTop } from './components/ScrollToTop';
-import { Navbar } from './components/Navbar';
-import { Footer } from './components/Footer';
+import { MainLayout } from './layouts';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
-// Pages
+// Application Pages
 import { HomePage } from './pages/HomePage';
 import { RegisterPage } from './pages/RegisterPage';
 import { LoginPage } from './pages/LoginPage';
@@ -18,7 +16,7 @@ import { PickupManagementPage } from './pages/PickupManagementPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
-// Styles
+// Modular Stylesheets
 import './styles/global.css';
 import './styles/components.css';
 import './styles/pages.css';
@@ -27,62 +25,57 @@ export const App: React.FC = () => {
   return (
     <AuthProvider>
       <Router>
-        <ScrollToTop />
-        <div className="app-wrapper" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-          <Navbar />
-          <main style={{ flex: 1 }}>
-            <Routes>
-              {/* Public Routes */}
-              <Route path="/" element={<HomePage />} />
-              <Route path="/register" element={<RegisterPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/available-food" element={<AvailableFoodPage />} />
-              <Route path="/expiry-detection" element={<ExpiryDetectionPage />} />
+        <MainLayout>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/available-food" element={<AvailableFoodPage />} />
+            <Route path="/expiry-detection" element={<ExpiryDetectionPage />} />
 
-              {/* Authenticated Dashboard (Supports both Donor and Recipient) */}
-              <Route
-                path="/dashboard"
-                element={
-                  <ProtectedRoute>
-                    <DashboardPage />
-                  </ProtectedRoute>
-                }
-              />
+            {/* Authenticated Dashboard (Unified Donor & Recipient View) */}
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <DashboardPage />
+                </ProtectedRoute>
+              }
+            />
 
-              {/* Donor-Specific Route */}
-              <Route
-                path="/donate"
-                element={
-                  <ProtectedRoute allowedRoles={['donor']}>
-                    <DonateFoodPage />
-                  </ProtectedRoute>
-                }
-              />
+            {/* Donor-Specific Donation Creation */}
+            <Route
+              path="/donate"
+              element={
+                <ProtectedRoute allowedRoles={['donor']}>
+                  <DonateFoodPage />
+                </ProtectedRoute>
+              }
+            />
 
-              {/* Shared Authenticated Routes */}
-              <Route
-                path="/pickups"
-                element={
-                  <ProtectedRoute>
-                    <PickupManagementPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <ProtectedRoute>
-                    <ProfilePage />
-                  </ProtectedRoute>
-                }
-              />
+            {/* Shared Authenticated Workflow Routes */}
+            <Route
+              path="/pickups"
+              element={
+                <ProtectedRoute>
+                  <PickupManagementPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
 
-              {/* 404 Catch-All */}
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
+            {/* 404 Not Found Catch-All */}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </MainLayout>
       </Router>
     </AuthProvider>
   );
